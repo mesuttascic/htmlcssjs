@@ -1,0 +1,40 @@
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    flex-wrap: wrap; /* Yeni ekledim */
+}
+
+.point {
+    background-color: #007bff;
+    color: #fff;
+    /* height: 2px; */
+    /* padding: 8px 12px; */
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 5px; /* Noktalar arasına boşluk eklemek için */
+    cursor: pointer;
+    position: relative; /* Nokta içindeki tooltip'ı konumlandırmak için */
+}
+
+.point.active {
+    background-color: #28a745;
+}
+
+.tooltip {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 123, 255, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: none;
+}
+
+.point:hover .tooltip {
+    display: block;
+}
