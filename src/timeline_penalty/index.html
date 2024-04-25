@@ -11,7 +11,7 @@
 <h2>İptal Politikası Bilgi Formu</h2>
 <div style="display: flex;">
     <div class="input-block" style="padding: 10px; background-color: blue;">
-        <input type="datetime" id="current-date-time" disabled>
+        <input type="datetime" id="current-date-time" disabled style="background-color: white;">
     </div>
     <div class="input-block" style="padding: 10px; background-color: orange;">
         <input type="date" id="checkin-date">
@@ -19,18 +19,19 @@
     </div>
 </div>
 
-<input type="checkbox" id="free-cancel">
-<label for="free-cancel">Her zaman ücretsiz iptal</label>
-
-<div id="cancel-policy">
+<div>
     <h3>Ücretsiz İptal Koşulları</h3>
-    <div class="form-container">
+    <input type="checkbox" id="free-cancel">
+    <label for="free-cancel">Her zaman ücretsiz iptal (CancellationOption seçili:0 değil:1)</label>
+    <br><br>
+
+    <div class="form-container" id="cancel-policy">
         <div class="input-block">
             <label for="anlik-iptal-saati">Anlık İptal Süresi (Reservasyon saati + </label>
             <select id="anlik-iptal-saati" name="anlik-iptal-saati">
             <!-- 0-23'e kadar değerler js script ile oluşturuluyor -->
             </select>
-            <span> saate kadar ücretsiz)</span>
+            <span> saate kadar ücretsiz) (InstantCancellationOption)</span>
         </div>
         <div class="input-block">
             <label for="ayni-gun-giris-saati">Aynı gün giriş saati </label>
@@ -38,41 +39,77 @@
                 <option value="00">00</option>
                 <!-- 14-23'e kadar değerler js script ile oluşturuluyor -->
             </select>
-            <span> 'e kadar ücretsiz) (00 ise istisna yok, 24 ise bütün gün ücretsiz)</span>
+            <span> 'e kadar ücretsiz) (00 ise istisna yok, 24 ise bütün gün ücretsiz) (SameDayCancellationHour + SameDayMinRoom)</span>
         </div>
-        <div class="input-block">
-            <label for="varis-gun-saati">Varış günü saat</label>
-            <select id="varis-gun-saati" name="varis-gun-saati">
-                <!-- 12-24'e kadar değerler js script ile oluşturuluyor -->
-            </select>
-            <span> 'e kadar ücretsiz)</span>
-        </div>
-    </div>
-    
-    <h3>Şartlı İptal Koşulları</h3>
-    <div class="form-container" style="display: flex; justify-content: space-between;">
+        <br>
         <div class="input-block">
             <label for="varis-gun-input">Varış Günü</label>
             <select id="varis-gun-input" name="varis-gun-input">
                 <option value="0">Varış Günü</option>
                 <!-- 0-60'e kadar değerler js script ile oluşturuluyor -->
             </select>
-            <span> 'e kadar ücretsiz)</span>
+            <span> 'e kadar ücretsiz) (PeriodValue)</span>
+            <br
+            <label for="varis-gun-saati">Varış günü saat</label>
+            <select id="varis-gun-saati" name="varis-gun-saati">
+                <!-- 12-24'e kadar değerler js script ile oluşturuluyor -->
+            </select>
+            <span> 'e kadar ücretsiz) (LastDayCancellationHour)</span>
+        </div><br>
+        <div class="timelines" id="timelines"></div>
+    </div>
+    
+    <h3>Timeline</h3>
+    <div class="timeline" id="timeline">
+        <!-- Timeline buraya eklenecek -->
+        current-date-time ve checkin-date-time arsındaki süreç buraya eklenecek
+    </div>
+    
+    <h3>İadesiz (Non-Ref) İstisnaları</h3>
+    <div class="form-container" style="display: flex; justify-content: space-between;">
+        <div class="input-block">
+            <label for="iadesiz-varis-gun-input">Varış Günü</label>
+            <select id="iadesiz-varis-gun-input" name="iadesiz-varis-gun-input">
+                <option value="1000">İstisna yok</option>
+                <!-- 0-60'e kadar değerler js script ile oluşturuluyor -->
+            </select>
+            <span> (NonRefCancelConfig)</span>
         </div>
+    </div>
+    <div class="form-container" style="display: flex; justify-content: space-between;">
+        <div class="input-block">
+            <label for="iadesiz-varis-hafta-input">Varış Günü</label>
+            <select id="iadesiz-varis-hafta-input" name="iadesiz-varis-hafta-input">
+                <option value="0">Tamamen iadesiz</option>
+                <!-- 0-60'e kadar değerler js script ile oluşturuluyor -->
+            </select>
+            <span> (NonRefFreeCancelWeek)</span>
+        </div>
+    </div>
+
+    <h3>İadesiz Timeline</h3>
+    <div class="iadesiz-timeline" id="iadesiz-timeline">
+        <!-- Timeline buraya eklenecek -->
+    </div>
+
+    <h3>İptal Detayı</h3>
+    <div class="form-container" style="display: flex; justify-content: space-between;">
         <div class="input-block">
             <label for="penalty-type">Sonrasında Penaltı Tipi:</label>
             <select id="penalty-type" name="penalty-type">
-                <option value="0" selected>Tamamı</option>
-                <option value="1">Yüzde</option>
-                <option value="2">Gün Sayısı</option>
-                <option value="3">Tutar</option>
+                <option value="0" selected>Tamamı (100)</option>
+                <option value="1">Yüzde (1)</option>
+                <option value="2">Gün Sayısı (4)</option>
+                <option value="3">Sabit Tutar (5)</option>
             </select>
+            <span> (PenaltyType)</span>
         </div>
         <div class="input-block">
             <label for="penalty-rate">Rate:</label>
             <select id="penalty-rate" name="penalty-rate">
                 <!-- 10-70'e kadar değerler js script ile oluşturuluyor -->
             </select>
+            <span> (Penalty)</span>
         </div>
         <div class="input-block">
             <label for="penalty-day">Day:</label>
@@ -82,24 +119,22 @@
                 <option value="3">3 nights</option>
                 <!-- Diğer seçenekler buraya eklenebilir -->
             </select>
+            <span> (Penalty)</span>
         </div>
         <div class="input-block">
             <label for="penalty-amount">Amount:</label>
             <input type="text" id="penalty-amount" name="penalty-amount">
+            <span> (Penalty)</span>
         </div>
     </div>
+    
+    <br><span>Özel konuk muafiyeti (TargetTypeConfig)</span>
+    <br><span>İptal cezasının ne zaman tahsil edileceği (CollectingOption)</span>
+    
 </div>
 
 
-<h3>Timeline</h3>
-<div class="timeline" id="timeline">
-    <!-- Timeline buraya eklenecek -->
-    current-date-time ve checkin-date-time arsındaki süreç buraya eklenecek
-</div>
-
-<br><br><br>
-<div class="timeline2" id="timeline2">
-</div>
+<br>
 <script src="script.js"></script>
 </body>
 </html>

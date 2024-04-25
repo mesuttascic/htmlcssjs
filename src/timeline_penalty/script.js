@@ -14,6 +14,8 @@ createOptions("anlik-iptal-saati", 0, 23, "", "");
 createOptions("ayni-gun-giris-saati", 12, 24, "", "");
 createOptions("varis-gun-saati", 14, 23, "", ":00");
 createOptions("varis-gun-input", 1, 60, "", " gün");
+createOptions("iadesiz-varis-gun-input", 1, 29, "", " güne kadar ücretsiz");
+createOptions("iadesiz-varis-hafta-input", 4, 12, "", " hafta kalana kadar ücretsiz");
 createOptions("penalty-rate", 10, 70, "% ", "");
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -115,12 +117,11 @@ function updateTimeline() {
 
     const timeline = document.getElementById("timeline");
     timeline.innerHTML = "";
-    const timeline2 = document.getElementById("timeline2");
-    timeline2.innerHTML = "";
+    const timelines = document.getElementById("timelines");
+    timelines.innerHTML = "";
 
     // A current-date-time
     addPoint(timeline, "A", currentDate, "Rezervasyon Saati");
-    addPoint(timeline2, "A", currentDate, "Rezervasyon Saati");
 
     // B current-date-time + anlik-iptal-saati
     const pointInstantCancel = new Date(currentDate);
@@ -131,7 +132,7 @@ function updateTimeline() {
     pointSameDay.setHours(0, 0, 0, 0);
     if (currentDate.toDateString() === checkinDate.toDateString()) {
         pointSameDay.setHours(checkinDate.getUTCHours() + parseInt(document.getElementById("ayni-gun-giris-saati").value));
-            // pointCDate.setMinutes(checkinDate.getMinutes() - 1); // 1 dakika çıkar
+        // pointCDate.setMinutes(checkinDate.getMinutes() - 1); // 1 dakika çıkar
     }
 
     // E checkin-date-time.date - varis-gun-input gün + 14 saat
@@ -162,8 +163,9 @@ function updateTimeline() {
         }
     }
     
-    points.forEach(point => addPoint(timeline2, point.id, point.date, point.label, point.bgColor));
-    addPoint(timeline2, "Z", checkinDateTime, "Check-in Saati", "orange");
+    addPoint(timelines, "A", currentDate, "Rezervasyon Saati");
+    points.forEach(point => addPoint(timelines, point.id, point.date, point.label, point.bgColor));
+    addPoint(timelines, "Z", checkinDateTime, "Check-in Saati", "orange");
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -176,3 +178,64 @@ document.addEventListener("DOMContentLoaded", function() {
     const freeCancelCheckbox = document.getElementById('free-cancel');
     freeCancelCheckbox.addEventListener('change',  updateTimeline);
 });
+
+
+var a = {
+    "FacilityId": "6361",
+    "CancellationOption": 1,
+    "InstantCancellationOption": 3,
+    "SameDayCancellationHour": 19,
+    "SameDayMinRoom": 5,
+    "PeriodValue": 5,
+    "LastDayCancellationHour": 16,
+
+    "NonRefCancelConfig": 0,
+    "NonRefFreeCancelWeek": 0,
+
+    "PenaltyType": 5,
+    "Penalty": 200,
+    
+    "CollectingOption": 0,
+    "TargetTypeConfig": 10,
+
+    "PeriodCase": 1,
+    "AdminCancellationOption": 0,
+    "ActionValue": 2,
+    
+    "UpdatedBy": 1006041,
+    "SecurityId": 1006041,
+    "IPAddress": "217.131.80.85",
+    "UpdatedOn": "2024-04-25T10:19:36.420",
+  }
+
+  $that.cancellationPenaltyTypeChange = function () {
+    var ruleModel = $scope.$commonCancelModel;
+    var actonType = ruleModel.PenaltyType;
+    switch (actonType) {
+      case 0:
+        ruleModel.Penalty = 0;
+        break;
+      case 1:
+        ruleModel.Penalty =
+          ruleModel.Penalty < 10
+            ? 10
+            : ruleModel.Penalty > 70
+              ? 70
+              : ruleModel.Penalty;
+        break;
+      case 4:
+        ruleModel.ActionValue =
+          ruleModel.Penalty < 1
+            ? 1
+            : ruleModel.Penalty > 3
+              ? 3
+              : ruleModel.Penalty;
+        break;
+      case 5:
+        ruleModel.ActionValue = ruleModel.Penalty < 1 ? 1 : ruleModel.Penalty;
+        break;
+      case 100:
+        ruleModel.Penalty = 100;
+        break;
+    }
+  };
