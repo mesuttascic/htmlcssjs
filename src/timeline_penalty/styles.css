@@ -40,11 +40,17 @@
     display: block;
 }
 
-.timeline .point:first-child:not(:empty) + .point:not(:empty):before {
-    content: "--";
-    width: 10px;
-    height: 1px;
-    background-color: black;
-    margin: 0 5px;
-    display: inline-block;
+
+  .timeline .point + .point::before {
+      content: "";
+
+      width: 200%; 
+      left: calc(-100% - 10px);
+      height: 10px;
+      top: 50%;
+
+      margin: 0 auto;
+      background-color: inherit;
+      position: absolute;
+      transform: translate(-50%, -1px); /* Yatay ve dikey ortalamak için */
   }
