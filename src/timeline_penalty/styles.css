@@ -5,6 +5,7 @@
     border: 2px solid #007bff;
     border-radius: 5px;
     flex-wrap: wrap; /* Yeni ekledim */
+    line-height: 2em;
 }
 
 .point {
@@ -23,9 +24,9 @@
     background-color: #28a745;
 }
 
-.tooltip {
+.timeline .tooltip {
     position: absolute;
-    top: -30px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 123, 255, 0.8);
@@ -35,6 +36,15 @@
     display: none;
 }
 
-.point:hover .tooltip {
+.timeline .point:hover .tooltip {
     display: block;
 }
+
+.timeline .point:first-child:not(:empty) + .point:not(:empty):before {
+    content: "--";
+    width: 10px;
+    height: 1px;
+    background-color: black;
+    margin: 0 5px;
+    display: inline-block;
+  }

@@ -10,7 +10,7 @@
 
 <h2>İptal Politikası Bilgi Formu</h2>
 <div style="display: flex;">
-    <div class="input-block" style="padding: 10px;">
+    <div class="input-block" style="padding: 10px; background-color: blue;">
         <input type="datetime" id="current-date-time" disabled>
     </div>
     <div class="input-block" style="padding: 10px; background-color: orange;">
@@ -19,69 +19,74 @@
     </div>
 </div>
 
-<h3>Ücretsiz İptal Koşulları</h3>
-<div class="form-container">
-    <div class="input-block">
-        <label for="anlik-iptal-saati">Anlık İptal Süresi (Reservasyon saati + </label>
-        <select id="anlik-iptal-saati" name="anlik-iptal-saati">
-        <!-- 0-23'e kadar değerler js script ile oluşturuluyor -->
-        </select>
-        <span> saate kadar ücretsiz)</span>
-    </div>
-    <div class="input-block">
-        <label for="ayni-gun-giris-saati">Aynı gün giriş saati </label>
-        <select id="ayni-gun-giris-saati" name="ayni-gun-giris-saati">
-            <option value="00">00</option>
-            <!-- 14-23'e kadar değerler js script ile oluşturuluyor -->
-        </select>
-        <span> 'e kadar ücretsiz) (00 ise istisna yok, 24 ise bütün gün ücretsiz)</span>
-    </div>
-    <div class="input-block">
-        <label for="varis-gun-saati">Varış günü saat</label>
-        <select id="varis-gun-saati" name="varis-gun-saati">
-            <!-- 12-24'e kadar değerler js script ile oluşturuluyor -->
-        </select>
-        <span> 'e kadar ücretsiz)</span>
-    </div>
-</div>
+<input type="checkbox" id="free-cancel">
+<label for="free-cancel">Her zaman ücretsiz iptal</label>
 
-<h3>Şartlı İptal Koşulları</h3>
-<div class="form-container" style="display: flex; justify-content: space-between;">
-    <div class="input-block">
-        <label for="varis-gun-input">Varış Günü</label>
-        <select id="varis-gun-input" name="varis-gun-input">
-            <option value="0">Varış Günü</option>
-            <!-- 0-60'e kadar değerler js script ile oluşturuluyor -->
-        </select>
-        <span> 'e kadar ücretsiz)</span>
+<div id="cancel-policy">
+    <h3>Ücretsiz İptal Koşulları</h3>
+    <div class="form-container">
+        <div class="input-block">
+            <label for="anlik-iptal-saati">Anlık İptal Süresi (Reservasyon saati + </label>
+            <select id="anlik-iptal-saati" name="anlik-iptal-saati">
+            <!-- 0-23'e kadar değerler js script ile oluşturuluyor -->
+            </select>
+            <span> saate kadar ücretsiz)</span>
+        </div>
+        <div class="input-block">
+            <label for="ayni-gun-giris-saati">Aynı gün giriş saati </label>
+            <select id="ayni-gun-giris-saati" name="ayni-gun-giris-saati">
+                <option value="00">00</option>
+                <!-- 14-23'e kadar değerler js script ile oluşturuluyor -->
+            </select>
+            <span> 'e kadar ücretsiz) (00 ise istisna yok, 24 ise bütün gün ücretsiz)</span>
+        </div>
+        <div class="input-block">
+            <label for="varis-gun-saati">Varış günü saat</label>
+            <select id="varis-gun-saati" name="varis-gun-saati">
+                <!-- 12-24'e kadar değerler js script ile oluşturuluyor -->
+            </select>
+            <span> 'e kadar ücretsiz)</span>
+        </div>
     </div>
-    <div class="input-block">
-        <label for="penalty-type">Sonrasında Penaltı Tipi:</label>
-        <select id="penalty-type" name="penalty-type">
-            <option value="0" selected>Tamamı</option>
-            <option value="1">Yüzde</option>
-            <option value="2">Gün Sayısı</option>
-            <option value="3">Tutar</option>
-        </select>
-    </div>
-    <div class="input-block">
-        <label for="penalty-rate">Rate:</label>
-        <select id="penalty-rate" name="penalty-rate">
-            <!-- 10-70'e kadar değerler js script ile oluşturuluyor -->
-        </select>
-    </div>
-    <div class="input-block">
-        <label for="penalty-day">Day:</label>
-        <select id="penalty-day" name="penalty-day">
-            <option value="1">1 night</option>
-            <option value="2">2 nights</option>
-            <option value="3">3 nights</option>
-            <!-- Diğer seçenekler buraya eklenebilir -->
-        </select>
-    </div>
-    <div class="input-block">
-        <label for="penalty-amount">Amount:</label>
-        <input type="text" id="penalty-amount" name="penalty-amount">
+    
+    <h3>Şartlı İptal Koşulları</h3>
+    <div class="form-container" style="display: flex; justify-content: space-between;">
+        <div class="input-block">
+            <label for="varis-gun-input">Varış Günü</label>
+            <select id="varis-gun-input" name="varis-gun-input">
+                <option value="0">Varış Günü</option>
+                <!-- 0-60'e kadar değerler js script ile oluşturuluyor -->
+            </select>
+            <span> 'e kadar ücretsiz)</span>
+        </div>
+        <div class="input-block">
+            <label for="penalty-type">Sonrasında Penaltı Tipi:</label>
+            <select id="penalty-type" name="penalty-type">
+                <option value="0" selected>Tamamı</option>
+                <option value="1">Yüzde</option>
+                <option value="2">Gün Sayısı</option>
+                <option value="3">Tutar</option>
+            </select>
+        </div>
+        <div class="input-block">
+            <label for="penalty-rate">Rate:</label>
+            <select id="penalty-rate" name="penalty-rate">
+                <!-- 10-70'e kadar değerler js script ile oluşturuluyor -->
+            </select>
+        </div>
+        <div class="input-block">
+            <label for="penalty-day">Day:</label>
+            <select id="penalty-day" name="penalty-day">
+                <option value="1">1 night</option>
+                <option value="2">2 nights</option>
+                <option value="3">3 nights</option>
+                <!-- Diğer seçenekler buraya eklenebilir -->
+            </select>
+        </div>
+        <div class="input-block">
+            <label for="penalty-amount">Amount:</label>
+            <input type="text" id="penalty-amount" name="penalty-amount">
+        </div>
     </div>
 </div>
 
@@ -92,6 +97,9 @@
     current-date-time ve checkin-date-time arsındaki süreç buraya eklenecek
 </div>
 
+<br><br><br>
+<div class="timeline2" id="timeline2">
+</div>
 <script src="script.js"></script>
 </body>
 </html>
